@@ -23,14 +23,17 @@ namespace ImageBoardReact.Controllers
         private readonly ILogger _logger;
         private int newPostId;
         private readonly IHostEnvironment _hostingEnvironment;
+        private readonly IUserPostsHandler _userPostsHandler;
+        private readonly IImageManager imageManager;
         //private DbContext context;
-        public PostsController(IPostsRepository repo, ILogger<PostsController> logger, IHostEnvironment environment)
+        public PostsController(IPostsRepository repo, ILogger<PostsController> logger, IHostEnvironment environment, IUserPostsHandler userPostsHandler)
         {
             repository = repo;
             _logger = logger;
             newPostId = repository.Posts.OrderBy(post => post.Id).Last().Id;
             _hostingEnvironment = environment;
-            //context = ctx;
+            _userPostsHandler = userPostsHandler;
+            imageManager = new LocalImageManager(_hostingEnvironment, "StaticFiles");
 
         }
         // GET: api/<PostsController>
@@ -67,35 +70,12 @@ namespace ImageBoardReact.Controllers
         async public Task<IActionResult> Post([FromForm] UserPost userPost)
         {
             newPostId++;
-            if (userPost.Images != null)
-            {
-                IImageManager imageManager = new LocalImageManager(_hostingEnvironment, "StaticFiles");
-                List<string> fileWebPaths = new List<string>();
-                foreach (var image in userPost.Images)
-                {
-                    _logger.LogInformation("Processing image");
-                    fileWebPaths.Add(await imageManager.SaveImageAsync(image));
-
-                }
-                //_logger.LogInformation("Processing image");
-                await repository.SavePost(
-                    new Post { 
-                        Id = newPostId,
-                        Name = userPost.Name,
-                        Subject = userPost.Subject,
-                        Text = userPost.Text, 
-                        DateTime = DateTime.Now, 
-                        ThreadId = newPostId, 
-                        ImagesSource = fileWebPaths.ToArray() });
-                return Ok();
-            }
-            await repository.SavePost(new Post { Id = newPostId, Text = userPost.Text, DateTime = DateTime.Now, ThreadId = newPostId });
-            //return Redirect($"/api/posts/{newId}");
+            Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, imageManager, newPostId, newPostId);
+            await repository.SavePost(newPost);
             return Ok();
-            //context.Posts.AddAsync(new Post {Text = value, DateTime = DateTime.Now });
         }
         [HttpPost("{id}")]
-        async public Task<IActionResult> PostInThread(int id, [FromBody] UserPost userPost)
+        async public Task<IActionResult> PostInThread(int id, [FromForm] UserPost userPost)
         {
             _logger.LogWarning(userPost.Text);
             //Console.ReadKey();
@@ -103,16 +83,8 @@ namespace ImageBoardReact.Controllers
             {
                 newPostId++;
                 _logger.LogInformation($"New ID = {newPostId}");
-                await repository.SavePost(
-                    new Post { 
-                        Id = newPostId, 
-                        Name = null, 
-                        Subject=null, 
-                        Text = userPost.Text, 
-                        DateTime = DateTime.Now, 
-                        ThreadId = id, 
-                        ImagesSource = new string[0]
-                    });
+                Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, imageManager, newPostId, id);
+                await repository.SavePost(newPost);
                 return Ok();
             }
             return UnprocessableEntity();

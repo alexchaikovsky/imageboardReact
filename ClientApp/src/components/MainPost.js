@@ -36,6 +36,7 @@ function insertImage(imageSource) {
 }
 
 const MainPost = (data) => {
+  console.log("mainpost");
   console.log(data);
   return (
     <table>
@@ -63,7 +64,7 @@ const MainPost = (data) => {
             ) : (
               data.data.imagesSource.map((image) => insertImage(image))
             )}
-            <blockquote>{data.data.text}</blockquote>
+            <blockquote class="block">{data.data.text}</blockquote>
           </td>
         </tr>
       </tbody>

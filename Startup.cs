@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
-
+using ImageBoardReact.Infrastructure;
 namespace ImageBoardReact
 {
     public class Startup
@@ -35,7 +35,8 @@ namespace ImageBoardReact
             services.AddControllersWithViews();
             services.AddDbContext<PostsDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostsDbContext")));
             services.AddScoped<IPostsRepository, EFPostsRepository>();
-
+            services.AddTransient<IUserPostsHandler, UserPostsHandler>();
+            
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

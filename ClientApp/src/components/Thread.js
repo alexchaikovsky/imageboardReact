@@ -11,7 +11,7 @@ export class Thread extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { posts: [], loading: true };
+    this.state = { opPost: {}, posts: [], loading: true };
     //this.id = useParams();
   }
 
@@ -19,10 +19,13 @@ export class Thread extends Component {
     this.populatePostsData();
   }
 
-  static renderPostsTable(posts) {
+  static renderPostsTable(opPost, posts) {
+    console.log("mainpost");
+    console.log(opPost);
+    console.log(posts);
     return (
       <div>
-        {<MainPost data={posts[0]} />}
+        {<MainPost data={opPost} />}
         {posts.map((post) => (
           <Post key={post.id} data={post} />
         ))}
@@ -36,7 +39,7 @@ export class Thread extends Component {
         <em>Loading...</em>
       </p>
     ) : (
-      Thread.renderPostsTable(this.state.posts)
+      Thread.renderPostsTable(this.state.opPost, this.state.posts)
     );
 
     return (
@@ -54,6 +57,7 @@ export class Thread extends Component {
     let id = this.props.match.params.id;
     const response = await fetch("api/posts/" + id);
     const data = await response.json();
-    this.setState({ posts: data, loading: false });
+    const first = data.shift();
+    this.setState({ opPost: first, posts: data, loading: false });
   }
 }
