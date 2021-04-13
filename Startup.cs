@@ -36,7 +36,7 @@ namespace ImageBoardReact
             services.AddDbContext<PostsDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostsDbContext")));
             services.AddScoped<IPostsRepository, EFPostsRepository>();
             services.AddTransient<IUserPostsHandler, UserPostsHandler>();
-            
+            services.AddSingleton<IRepositoryMonitor, RepositoryMonitor>();
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

@@ -8,6 +8,7 @@ namespace ImageBoardReact.Models
     public interface IPostsRepository
     {
         IQueryable<Post> Posts { get; }
-        Task SavePost(Post post);
+        Task SavePostAsync(Post post);
+        Task SaveThreadAsync(Post post);
     }
 }

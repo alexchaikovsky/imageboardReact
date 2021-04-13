@@ -21,18 +21,23 @@ namespace ImageBoardReact.Controllers
     {
         private IPostsRepository repository;
         private readonly ILogger _logger;
-        private int newPostId;
         private readonly IHostEnvironment _hostingEnvironment;
         private readonly IUserPostsHandler _userPostsHandler;
         private readonly IImageManager imageManager;
+        private readonly IRepositoryMonitor _repositoryMonitor;
         //private DbContext context;
-        public PostsController(IPostsRepository repo, ILogger<PostsController> logger, IHostEnvironment environment, IUserPostsHandler userPostsHandler)
+        public PostsController(
+            IPostsRepository repo, 
+            ILogger<PostsController> logger, 
+            IHostEnvironment environment,
+            IRepositoryMonitor repositoryMonitor,
+            IUserPostsHandler userPostsHandler)
         {
             repository = repo;
             _logger = logger;
-            newPostId = repository.Posts.OrderBy(post => post.Id).Last().Id;
             _hostingEnvironment = environment;
             _userPostsHandler = userPostsHandler;
+            _repositoryMonitor = repositoryMonitor;
             imageManager = new LocalImageManager(_hostingEnvironment, "StaticFiles");
 
         }
@@ -41,8 +46,11 @@ namespace ImageBoardReact.Controllers
         [HttpGet]
         async public Task<IActionResult> Get()
         {
+            var posts = await repository.Posts
+                .Where(post => post.Id == post.ThreadId)
+                .OrderByDescending(post => post.LastPostTime)
+                .ToListAsync();
 
-            var posts = await repository.Posts.Where(x => x.Id == x.ThreadId).ToListAsync();
             if (posts == null)
             {
                 return NotFound();
@@ -56,7 +64,11 @@ namespace ImageBoardReact.Controllers
         [HttpGet("{id}")]
         async public Task<IActionResult> Get(int id)
         {
-            var posts = await repository.Posts.Where(x => x.ThreadId == id).ToListAsync();
+            var posts = await repository.Posts
+                .Where(x => x.ThreadId == id)
+                .OrderBy(post => post.DateTime)
+                .ToListAsync();
+
             if (posts.Count == 0)
             {
                 return NotFound();
@@ -64,31 +76,46 @@ namespace ImageBoardReact.Controllers
             return Ok(posts);
         }
 
+        [HttpGet("{id}/{number}")]
+        async public Task<IActionResult> GetLastPosts(int id, int number)
+        {
+            var posts = await repository.Posts
+                .Where(x => x.ThreadId == id)
+                .OrderBy(post => post.DateTime)
+                .ToListAsync();
+
+            if (posts.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(posts.TakeLast(number));
+        }
+
         // POST api/<PostsController>
         //Create new thread
         [HttpPost]
         async public Task<IActionResult> Post([FromForm] UserPost userPost)
         {
-            newPostId++;
-            Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, imageManager, newPostId, newPostId);
-            await repository.SavePost(newPost);
+            Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, imageManager);
+            await repository.SaveThreadAsync(newPost);
+            _repositoryMonitor.Update(repository);
+            _repositoryMonitor.LogState(_logger);
             return Ok();
         }
         [HttpPost("{id}")]
         async public Task<IActionResult> PostInThread(int id, [FromForm] UserPost userPost)
         {
             _logger.LogWarning(userPost.Text);
-            //Console.ReadKey();
+       
             if (ContentChecker.CheckFieldsOk(userPost))
             {
-                newPostId++;
-                _logger.LogInformation($"New ID = {newPostId}");
-                Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, imageManager, newPostId, id);
-                await repository.SavePost(newPost);
+                Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, imageManager, id);
+                await repository.SavePostAsync(newPost);
+                _repositoryMonitor.Update(repository);
+                _repositoryMonitor.LogState(_logger);
                 return Ok();
             }
             return UnprocessableEntity();
-            //context.Posts.AddAsync(new Post {Text = value, DateTime = DateTime.Now });
         }
         // PUT api/<PostsController>/5
         [HttpPut("{id}")]

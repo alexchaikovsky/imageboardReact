@@ -8,6 +8,7 @@ namespace ImageBoardReact.Models
 {
     public interface IUserPostsHandler
     {
-        Task<Post> BuildFromUserPostAsync(UserPost userPost, IImageManager imageManage, int newPostId, int threadId);
+        Task<Post> BuildFromUserPostAsync(UserPost userPost, IImageManager imageManage, int threadId);
+        Task<Post> BuildFromUserPostAsync(UserPost userPost, IImageManager imageManage);
     }
 }

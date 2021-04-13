@@ -36,8 +36,8 @@ function insertImage(imageSource) {
 }
 
 const MainPost = (data) => {
-  console.log("mainpost");
-  console.log(data);
+  //console.log("mainpost");
+  //console.log(data);
   return (
     <table>
       <tbody>

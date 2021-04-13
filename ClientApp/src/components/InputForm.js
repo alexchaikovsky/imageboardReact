@@ -3,29 +3,40 @@ import React from "react";
 class InputForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: "" };
+    this.state = { text: "", file: null };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
+    this.handleFileChange = this.handleFileChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
-    console.log("change");
+  handleTextChange(event) {
+    this.setState({ text: event.target.text });
+    console.log("change text");
+  }
+
+  handleFileChange(event) {
+    this.setState({ file: event.target.file });
+    console.log("change file");
   }
 
   handleSubmit(event) {
-    alert("A name was submitted: " + this.state.value);
+    alert("A data was submitted: " + this.state.text);
     event.preventDefault();
-    const uri = "api/posts/1";
-    const content = { Name: "", Subject: "", Text: this.state.value };
+    const uri = "api/posts/" + this.props.threadId;
+    //const content = { Name: "", Subject: "", Text: this.state.value };
+    let formData = new FormData();
+    //formData.append('Text', this.this.state.value)
+    formData.append("Text", this.state.text);
+    formData.append("Images", this.state.file);
+
     fetch(uri, {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(content),
+      //headers: {
+      //  Accept: "application/json",
+      //  "Content-Type": "application/json",
+      //},
+      body: formData,
     });
   }
   render() {
@@ -53,15 +64,21 @@ class InputForm extends React.Component {
                   name="field"
                   cols="48"
                   rows="4"
-                  value={this.state.value}
-                  onChange={this.handleChange}
+                  value={this.state.text}
+                  onChange={this.handleTextChange}
                 />
               </td>
             </tr>
             <tr>
               <td class="postblock">File</td>
               <td>
-                <input type="file" name="file" size="35" />
+                <input
+                  type="file"
+                  value={this.state.file}
+                  name="file"
+                  size="35"
+                  onChange={this.handleFileChange}
+                />
               </td>
             </tr>
             <tr>

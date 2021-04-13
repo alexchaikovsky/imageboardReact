@@ -20,9 +20,9 @@ export class Thread extends Component {
   }
 
   static renderPostsTable(opPost, posts) {
-    console.log("mainpost");
-    console.log(opPost);
-    console.log(posts);
+    //console.log("mainpost");
+    //console.log(opPost);
+    //console.log(posts);
     return (
       <div>
         {<MainPost data={opPost} />}
@@ -46,14 +46,24 @@ export class Thread extends Component {
       <div>
         <h1 id="tabelLabel">Thread</h1>
         <p>This component demonstrates fetching data from the server.</p>
-        {<InputForm />}
+        {<InputForm threadId={this.props.match.params.id} />}
         {contents}
+        <br />
+        <button
+          className="btn btn-outline-primary btn-block"
+          onClick={this.componentDidMount.bind(this)}
+        >
+          Update
+        </button>
       </div>
     );
   }
-
+  reload() {
+    alert("gav gav");
+    this.setState({ loading: true });
+  }
   async populatePostsData() {
-    //let id = useParams();
+    console.log("fetch");
     let id = this.props.match.params.id;
     const response = await fetch("api/posts/" + id);
     const data = await response.json();

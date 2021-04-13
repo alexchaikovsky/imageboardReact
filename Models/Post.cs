@@ -18,5 +18,6 @@ namespace ImageBoardReact.Models
         public string Subject { get; set; }
         public string Text { get; set; }
         public string[] ImagesSource { get; set; }
+        public DateTime LastPostTime { get; set; }
     }
 }
