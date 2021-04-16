@@ -12,15 +12,20 @@ namespace ImageBoardReact.Infrastructure
         private int postsCount;
         private int imagesCount;
         private int threadsCount;
+        ILogger<RepositoryMonitor> _logger;
+        public RepositoryMonitor(ILogger<RepositoryMonitor> logger)
+        {
+            _logger = logger;
+        }
         public int PostsCount => postsCount;
 
         public int ThreadsCount => threadsCount;
 
         public int ImagesCount => imagesCount;
 
-        public void LogState(ILogger logger)
+        public void LogState()
         {
-            logger.LogInformation($"Current state:\n " +
+            _logger.LogInformation($"Current state:\n " +
                 $"\tPosts {postsCount}" +
                 $"\tThreads {threadsCount}" +
                 $"\tImages {imagesCount}");

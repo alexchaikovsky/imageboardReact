@@ -17,6 +17,11 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using ImageBoardReact.Infrastructure;
+using ImageBoardReact.Models.Images;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using ImageBoardReact.Authentiication;
+using Microsoft.IdentityModel.Tokens;
+
 namespace ImageBoardReact
 {
     public class Startup
@@ -34,9 +39,37 @@ namespace ImageBoardReact
 
             services.AddControllersWithViews();
             services.AddDbContext<PostsDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostsDbContext")));
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => 
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        // укзывает, будет ли валидироваться издатель при валидации токена
+                        ValidateIssuer = true,
+                        // строка, представляющая издателя
+                        ValidIssuer = AuthOptions.ISSUER,
+
+                        // будет ли валидироваться потребитель токена
+                        ValidateAudience = true,
+                        // установка потребителя токена
+                        ValidAudience = AuthOptions.AUDIENCE,
+                        // будет ли валидироваться время существования
+                        ValidateLifetime = true,
+
+                        // установка ключа безопасности
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        // валидация ключа безопасности
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
+
+            services.AddScoped<IImageManager, LocalImageManager>();
             services.AddScoped<IPostsRepository, EFPostsRepository>();
             services.AddTransient<IUserPostsHandler, UserPostsHandler>();
             services.AddSingleton<IRepositoryMonitor, RepositoryMonitor>();
+            services.AddScoped<IRepositoryManager, EFRepositoryManager>();
+            
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -66,6 +99,9 @@ namespace ImageBoardReact
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -82,6 +118,7 @@ namespace ImageBoardReact
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
             SeedData.EnsurePopulated(app);
         }
     }

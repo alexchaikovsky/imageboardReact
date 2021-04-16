@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using ImageBoardReact.Infrastructure;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,10 +15,12 @@ namespace ImageBoardReact.Models.Images
     {
         private readonly IHostEnvironment _hostingEnvironment;
         private readonly string imagesSavePath;
-        public LocalImageManager(IHostEnvironment environment, string folderName)
+        private readonly ILogger<LocalImageManager> _logger;
+        public LocalImageManager(IHostEnvironment environment, ILogger<LocalImageManager> logger)
         {
+            _logger = logger;
             _hostingEnvironment = environment;
-            imagesSavePath = Path.Combine(_hostingEnvironment.ContentRootPath, folderName);
+            imagesSavePath = Path.Combine(_hostingEnvironment.ContentRootPath, Options.ImageManagerFolder);
         }
         private string GetNewName()
         {
@@ -33,6 +37,26 @@ namespace ImageBoardReact.Models.Images
                 await image.CopyToAsync(fileStream);
             }
             return name;
+        }
+
+        async public Task RemoveImagesAsync(List <string> imagesNames)
+        {
+            await Task.Run(() => RemoveImages(imagesNames));
+        }
+        public void RemoveImages(List<string> imagesNames)
+        {
+                foreach (var name in imagesNames)
+                {
+                    string fullPath = Path.Combine(imagesSavePath, name);
+                    try
+                    {
+                        File.Delete(fullPath);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e.Message);
+                    }
+                }
         }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Cors;
 using ImageBoardReact.Infrastructure;
 using ImageBoardReact.Models.Images;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,18 +20,21 @@ namespace ImageBoardReact.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private IPostsRepository repository;
+        private readonly IPostsRepository repository;
         private readonly ILogger _logger;
         private readonly IHostEnvironment _hostingEnvironment;
         private readonly IUserPostsHandler _userPostsHandler;
         private readonly IImageManager imageManager;
         private readonly IRepositoryMonitor _repositoryMonitor;
+        private readonly IRepositoryManager _repositoryManager;
         //private DbContext context;
         public PostsController(
             IPostsRepository repo, 
             ILogger<PostsController> logger, 
             IHostEnvironment environment,
             IRepositoryMonitor repositoryMonitor,
+            IRepositoryManager repositoryManager,
+            IImageManager imageManager,
             IUserPostsHandler userPostsHandler)
         {
             repository = repo;
@@ -38,7 +42,9 @@ namespace ImageBoardReact.Controllers
             _hostingEnvironment = environment;
             _userPostsHandler = userPostsHandler;
             _repositoryMonitor = repositoryMonitor;
-            imageManager = new LocalImageManager(_hostingEnvironment, "StaticFiles");
+            _repositoryManager = repositoryManager;
+            this.imageManager = imageManager;
+            //imageManager = new LocalImageManager(_hostingEnvironment, _logger, "StaticFiles");
 
         }
         // GET: api/<PostsController>
@@ -46,11 +52,11 @@ namespace ImageBoardReact.Controllers
         [HttpGet]
         async public Task<IActionResult> Get()
         {
-            var posts = await repository.Posts
-                .Where(post => post.Id == post.ThreadId)
-                .OrderByDescending(post => post.LastPostTime)
-                .ToListAsync();
-
+            //var posts = await repository.Posts
+            //    .Where(post => post.Id == post.ThreadId)
+            //    .OrderByDescending(post => post.LastPostTime)
+            //    .ToListAsync();
+            var posts = await repository.GetThreadsInOrderAsync();
             if (posts == null)
             {
                 return NotFound();
@@ -64,11 +70,11 @@ namespace ImageBoardReact.Controllers
         [HttpGet("{id}")]
         async public Task<IActionResult> Get(int id)
         {
-            var posts = await repository.Posts
-                .Where(x => x.ThreadId == id)
-                .OrderBy(post => post.DateTime)
-                .ToListAsync();
-
+            //var posts = await repository.Posts
+            //    .Where(x => x.ThreadId == id)
+            //    .OrderBy(post => post.DateTime)
+            //    .ToListAsync();
+            var posts = await repository.GetPostsInOrderAsync(id);
             if (posts.Count == 0)
             {
                 return NotFound();
@@ -99,7 +105,10 @@ namespace ImageBoardReact.Controllers
             Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, imageManager);
             await repository.SaveThreadAsync(newPost);
             _repositoryMonitor.Update(repository);
-            _repositoryMonitor.LogState(_logger);
+            _repositoryMonitor.LogState();
+
+            await _repositoryManager.RemoveOldestThreads();
+            _logger.LogInformation("Returning from controller");
             return Ok();
         }
         [HttpPost("{id}")]
@@ -112,7 +121,7 @@ namespace ImageBoardReact.Controllers
                 Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, imageManager, id);
                 await repository.SavePostAsync(newPost);
                 _repositoryMonitor.Update(repository);
-                _repositoryMonitor.LogState(_logger);
+                _repositoryMonitor.LogState();
                 return Ok();
             }
             return UnprocessableEntity();
@@ -122,11 +131,19 @@ namespace ImageBoardReact.Controllers
         public void Put(int id, [FromBody] string value)
         {
         }
-
         // DELETE api/<PostsController>/5
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        //[HttpDelete]
+        async public Task<IActionResult> DeletePost(int id)
         {
+            
+            bool result = await repository.DeleteAsync(id);
+            if (result == true)
+            {
+                return Ok();
+            }
+            return NotFound();
         }
     }
 }

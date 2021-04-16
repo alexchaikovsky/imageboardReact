@@ -9,5 +9,7 @@ namespace ImageBoardReact.Models.Images
     public interface IImageManager
     {
         Task<string> SaveImageAsync(IFormFile image);
+        void RemoveImages(List<string> imagesNames);
+        Task RemoveImagesAsync(List<string> imagesNames);
     }
 }

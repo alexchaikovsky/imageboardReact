@@ -11,12 +11,12 @@ class InputForm extends React.Component {
   }
 
   handleTextChange(event) {
-    this.setState({ text: event.target.text });
-    console.log("change text");
+    this.setState({ text: event.target.value });
+    console.log(event.target.value);
   }
 
   handleFileChange(event) {
-    this.setState({ file: event.target.file });
+    this.setState({ file: event.target.files[0] });
     console.log("change file");
   }
 
@@ -38,6 +38,8 @@ class InputForm extends React.Component {
       //},
       body: formData,
     });
+    this.props.parent.reload();
+    this.props.parent.render();
   }
   render() {
     return (
@@ -64,7 +66,7 @@ class InputForm extends React.Component {
                   name="field"
                   cols="48"
                   rows="4"
-                  value={this.state.text}
+                  text={this.state.text}
                   onChange={this.handleTextChange}
                 />
               </td>
@@ -74,8 +76,8 @@ class InputForm extends React.Component {
               <td>
                 <input
                   type="file"
-                  value={this.state.file}
-                  name="file"
+                  //value={this.state.file}
+                  name="image"
                   size="35"
                   onChange={this.handleFileChange}
                 />

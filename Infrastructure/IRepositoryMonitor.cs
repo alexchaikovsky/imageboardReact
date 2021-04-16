@@ -12,7 +12,7 @@ namespace ImageBoardReact.Infrastructure
         int PostsCount { get;}
         int ThreadsCount { get; }
         int ImagesCount { get; }
-        void LogState(ILogger logger);
+        void LogState();
         void Update(IPostsRepository postsRepository);
     }
 }

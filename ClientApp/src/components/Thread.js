@@ -46,12 +46,13 @@ export class Thread extends Component {
       <div>
         <h1 id="tabelLabel">Thread</h1>
         <p>This component demonstrates fetching data from the server.</p>
-        {<InputForm threadId={this.props.match.params.id} />}
+        {<InputForm threadId={this.props.match.params.id} parent={this} />}
         {contents}
         <br />
         <button
           className="btn btn-outline-primary btn-block"
-          onClick={this.componentDidMount.bind(this)}
+          //onClick={this.componentDidMount.bind(this)}
+          onClick={this.reload.bind(this)}
         >
           Update
         </button>
@@ -59,8 +60,9 @@ export class Thread extends Component {
     );
   }
   reload() {
-    alert("gav gav");
-    this.setState({ loading: true });
+    this.componentDidMount();
+    //alert("gav gav");
+    //this.setState({ loading: true });
   }
   async populatePostsData() {
     console.log("fetch");
