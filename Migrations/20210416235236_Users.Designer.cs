@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ImageBoardReact.Migrations
 {
     [DbContext(typeof(BoardDbContext))]
-    [Migration("20210411235309_AddPKGeneration")]
-    partial class AddPKGeneration
+    [Migration("20210416235236_Users")]
+    partial class Users
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,9 @@ namespace ImageBoardReact.Migrations
                     b.Property<string[]>("ImagesSource")
                         .HasColumnType("text[]");
 
+                    b.Property<DateTime>("LastPostTime")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -49,6 +52,30 @@ namespace ImageBoardReact.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("ImageBoardReact.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Login")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Salt")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

@@ -38,7 +38,7 @@ namespace ImageBoardReact
         {
 
             services.AddControllersWithViews();
-            services.AddDbContext<PostsDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostsDbContext")));
+            services.AddDbContext<BoardDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PostsDbContext")));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => 
                 {
@@ -69,6 +69,7 @@ namespace ImageBoardReact
             services.AddTransient<IUserPostsHandler, UserPostsHandler>();
             services.AddSingleton<IRepositoryMonitor, RepositoryMonitor>();
             services.AddScoped<IRepositoryManager, EFRepositoryManager>();
+            services.AddScoped<IUsersRepository, EFUsersRepository>();
             
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

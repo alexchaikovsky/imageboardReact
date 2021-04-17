@@ -9,8 +9,8 @@ namespace ImageBoardReact.Models
 {
     public class EFPostsRepository : IPostsRepository
     {
-        private PostsDbContext context;
-        public EFPostsRepository(PostsDbContext ctx)
+        private BoardDbContext context;
+        public EFPostsRepository(BoardDbContext ctx)
         {
             context = ctx;
         }
@@ -60,10 +60,10 @@ namespace ImageBoardReact.Models
             context.Posts.RemoveRange(entitiesToRemove);
             context.SaveChanges();
         }
-        async public Task ClearDbAsync(IEnumerable<Post> entitiesToRemove)
+        public Task ClearDbAsync(IEnumerable<Post> entitiesToRemove)
         {
             context.Posts.RemoveRange(entitiesToRemove);
-            await context.SaveChangesAsync();
+            return context.SaveChangesAsync();
         }
 
         async public Task DeletePost(int id)

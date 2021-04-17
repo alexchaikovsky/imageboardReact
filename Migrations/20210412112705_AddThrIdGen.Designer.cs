@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ImageBoardReact.Migrations
 {
-    [DbContext(typeof(PostsDbContext))]
+    [DbContext(typeof(BoardDbContext))]
     [Migration("20210412112705_AddThrIdGen")]
     partial class AddThrIdGen
     {

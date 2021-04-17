@@ -37,7 +37,7 @@ namespace ImageBoardReact.Models
             {
                 foreach (var image in userPost.Images)
                 {
-                    fileWebPaths.Add(await imageManager.SaveImageAsync(image));
+                    fileWebPaths.Add(await imageManager.SaveImageAsync(image).ConfigureAwait(false));
 
                 }
             }

@@ -3,14 +3,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
+using ImageBoardReact.Authentiication.Security;
+
 namespace ImageBoardReact.Models
 {
     public static class SeedData
     {
         public static void EnsurePopulated(IApplicationBuilder app)
         {
-            PostsDbContext context = app.ApplicationServices
-            .CreateScope().ServiceProvider.GetRequiredService<PostsDbContext>();
+            BoardDbContext context = app.ApplicationServices
+            .CreateScope().ServiceProvider.GetRequiredService<BoardDbContext>();
             if (context.Database.GetPendingMigrations().Any())
             {
                 context.Database.Migrate();
@@ -26,7 +28,24 @@ namespace ImageBoardReact.Models
                     new Post { Text = "5abcddasd123", DateTime = DateTime.Now, ThreadId = 1 }
                     );
             }     
-               
+            if (!context.Users.Any())
+            {
+                //PasswordManager passwordManager = new PasswordManager();
+
+                string login = "admin";
+                string password = "12345";
+                
+                var salted = PasswordManager.GetSaltAndHash(password);
+
+                context.Users.Add(new User {Login = login, Role = "admin", Salt = salted.salt, PasswordHash = salted.hash });
+
+                string userLogin = "chad";
+                string userPassword = "77777";
+                
+                var userSalted = PasswordManager.GetSaltAndHash(userPassword);
+
+                context.Users.Add(new User { Login = userLogin, Role = "user", Salt = userSalted.salt, PasswordHash = userSalted.hash });
+            }
             context.SaveChanges();
         }
     }

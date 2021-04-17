@@ -1,4 +1,5 @@
 ﻿using ImageBoardReact.Authentiication;
+using ImageBoardReact.Authentiication.Security;
 using ImageBoardReact.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,16 @@ namespace ImageBoardReact.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private List<User> people = new List<User>
+        //private List<User> people = new List<User>();
+        //{
+        //    new User {Login="admin@gmail.com", Password="12345", Role = "admin" },
+        //    new User { Login="qwerty@gmail.com", Password="55555", Role = "user" }
+        //};
+        private readonly IUsersRepository _usersRepository;
+        public AccountController(IUsersRepository usersRepository)
         {
-            new User {Login="admin@gmail.com", Password="12345", Role = "admin" },
-            new User { Login="qwerty@gmail.com", Password="55555", Role = "user" }
-        };
+            _usersRepository = usersRepository;
+        }
 
         [HttpPost("/token")]
         public IActionResult Token([FromForm] string username, [FromForm] string password)
@@ -53,7 +59,10 @@ namespace ImageBoardReact.Controllers
 
         private ClaimsIdentity GetIdentity(string username, string password)
         {
-            User person = people.FirstOrDefault(x => x.Login == username && x.Password == password);
+            //User person = people.FirstOrDefault(x => x.Login == username && x.PasswordHash == password);
+            User person = _usersRepository.Users
+                .AsEnumerable()
+                .FirstOrDefault(x => x.Login == username && x.PasswordHash == PasswordManager.GetHash(x.Salt, password));
             if (person != null)
             {
                 var claims = new List<Claim>
