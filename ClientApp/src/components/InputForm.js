@@ -1,5 +1,4 @@
 import React from "react";
-
 class InputForm extends React.Component {
   constructor(props) {
     super(props);
@@ -20,8 +19,8 @@ class InputForm extends React.Component {
     console.log("change file");
   }
 
-  handleSubmit(event) {
-    alert("A data was submitted: " + this.state.text);
+  async handleSubmit(event) {
+    //alert("A data was submitted: " + this.state.text);
     event.preventDefault();
     const uri = "api/posts/" + this.props.threadId;
     //const content = { Name: "", Subject: "", Text: this.state.value };
@@ -30,7 +29,7 @@ class InputForm extends React.Component {
     formData.append("Text", this.state.text);
     formData.append("Images", this.state.file);
 
-    fetch(uri, {
+    const response = await fetch(uri, {
       method: "POST",
       //headers: {
       //  Accept: "application/json",
@@ -38,8 +37,9 @@ class InputForm extends React.Component {
       //},
       body: formData,
     });
-    this.props.parent.reload();
-    this.props.parent.render();
+    console.log(response.status);
+    this.props.onFormSend();
+    //this.props.parent.render();
   }
   render() {
     return (

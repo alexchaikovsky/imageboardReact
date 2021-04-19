@@ -35,7 +35,7 @@ export class Board extends Component {
     ) : (
       Board.renderPostsTable(this.state.posts)
     );
-
+    //{<InputForm parentReload={this.populatePostsData()} />}
     return (
       <div>
         <h1 id="tabelLabel">Thread</h1>

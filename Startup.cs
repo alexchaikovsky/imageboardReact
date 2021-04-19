@@ -70,6 +70,7 @@ namespace ImageBoardReact
             services.AddSingleton<IRepositoryMonitor, RepositoryMonitor>();
             services.AddScoped<IRepositoryManager, EFRepositoryManager>();
             services.AddScoped<IUsersRepository, EFUsersRepository>();
+            services.AddTransient<IDateTimeProvider, UTCDateTimeProvider>();
             
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

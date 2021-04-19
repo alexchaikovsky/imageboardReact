@@ -6,6 +6,7 @@ import { FetchData } from "./components/FetchData";
 import { Board } from "./components/Board";
 import ThreadWithRouter, { Thread } from "./components/Thread";
 import { Counter } from "./components/Counter";
+import Login from "./components/Login.js";
 
 import "./custom.css";
 
@@ -20,6 +21,7 @@ export default class App extends Component {
         <Route path="/fetch-data" component={FetchData} />
         <Route path="/board" component={Board} />
         <Route path="/thread/:id" component={Thread} />
+        <Route path="/login" component={Login} />
       </Layout>
     );
   }

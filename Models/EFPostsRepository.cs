@@ -17,17 +17,17 @@ namespace ImageBoardReact.Models
         public IQueryable<Post> Posts => context.Posts;
 
 
-        async public Task<List<Post>> GetPostsInOrderAsync(int threadId)
+        public Task<List<Post>> GetPostsInOrderAsync(int threadId)
         {
-             return await context.Posts
+             return context.Posts
                 .Where(x => x.ThreadId == threadId)
                 .OrderBy(post => post.DateTime)
                 .ToListAsync();
         }
 
-        async public Task<List<Post>> GetThreadsInOrderAsync()
+        public Task<List<Post>> GetThreadsInOrderAsync()
         {
-            return await context.Posts
+            return context.Posts
                 .Where(post => post.Id == post.ThreadId)
                 .OrderByDescending(post => post.LastPostTime)
                 .ToListAsync();
@@ -60,38 +60,38 @@ namespace ImageBoardReact.Models
             context.Posts.RemoveRange(entitiesToRemove);
             context.SaveChanges();
         }
-        public Task ClearDbAsync(IEnumerable<Post> entitiesToRemove)
+        public Task RemovePostsAsync(IEnumerable<Post> postsToRemove)
         {
-            context.Posts.RemoveRange(entitiesToRemove);
+            context.Posts.RemoveRange(postsToRemove);
             return context.SaveChangesAsync();
         }
 
-        async public Task DeletePost(int id)
+        public Task DeletePost(int id)
         {
             var post = context.Posts.Single(x => x.Id == id);
             context.Posts.Remove(post);
-            await context.SaveChangesAsync();
+            return context.SaveChangesAsync();
         }
 
         async public Task DeleteThread(int threadId)
         {
-            await ClearDbAsync(context.Posts.Where(x => x.ThreadId == threadId).AsEnumerable());
+            await RemovePostsAsync(context.Posts.Where(x => x.ThreadId == threadId).AsEnumerable());
         }
 
-        async public Task<bool> DeleteAsync(int id)
-        {
-            var post = context.Posts.SingleOrDefault(x => x.Id == id);
-            if (post == null)
-            {
-                return false;
-            }
-            if (post.Id == post.ThreadId)
-            {
-                await DeleteThread(id);
-                return true;
-            }
-            await DeletePost(id);
-            return true;
-        }
+        //async public Task<bool> DeleteAsync(int id)
+        //{
+        //    var post = context.Posts.SingleOrDefault(x => x.Id == id);
+        //    if (post == null)
+        //    {
+        //        return false;
+        //    }
+        //    if (post.Id == post.ThreadId)
+        //    {
+        //        await DeleteThread(id);
+        //        return true;
+        //    }
+        //    await DeletePost(post);
+        //    return true;
+        //}
     }
 }

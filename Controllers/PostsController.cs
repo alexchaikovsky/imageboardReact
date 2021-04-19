@@ -56,8 +56,11 @@ namespace ImageBoardReact.Controllers
             //    .Where(post => post.Id == post.ThreadId)
             //    .OrderByDescending(post => post.LastPostTime)
             //    .ToListAsync();
+
+            _logger.LogInformation($"Get all threads called");
+
             var posts = await repository.GetThreadsInOrderAsync();
-            if (posts == null)
+            if (posts.Count() == 0)
             {
                 return NotFound();
             }
@@ -74,6 +77,7 @@ namespace ImageBoardReact.Controllers
             //    .Where(x => x.ThreadId == id)
             //    .OrderBy(post => post.DateTime)
             //    .ToListAsync();
+            _logger.LogInformation($"Get thread {id} called");
             var posts = await repository.GetPostsInOrderAsync(id);
             if (posts.Count == 0)
             {
@@ -102,12 +106,12 @@ namespace ImageBoardReact.Controllers
         [HttpPost]
         async public Task<IActionResult> Post([FromForm] UserPost userPost)
         {
-            Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, imageManager);
+            Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost);
             await repository.SaveThreadAsync(newPost);
             _repositoryMonitor.Update(repository);
             _repositoryMonitor.LogState();
 
-            await _repositoryManager.RemoveOldestThreads();
+            await _repositoryManager.RemoveOldestThreads().ConfigureAwait(false);
             _logger.LogInformation("Returning from controller");
             return Ok();
         }
@@ -118,7 +122,7 @@ namespace ImageBoardReact.Controllers
        
             if (ContentChecker.CheckFieldsOk(userPost))
             {
-                Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, imageManager, id);
+                Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, id);
                 await repository.SavePostAsync(newPost);
                 _repositoryMonitor.Update(repository);
                 _repositoryMonitor.LogState();
@@ -137,8 +141,9 @@ namespace ImageBoardReact.Controllers
         //[HttpDelete]
         async public Task<IActionResult> DeletePost(int id)
         {
+
+            bool result  = await _repositoryManager.RemoveByIdAsync(id);// await repository.DeleteAsync(id);
             
-            bool result = await repository.DeleteAsync(id);
             if (result == true)
             {
                 return Ok();

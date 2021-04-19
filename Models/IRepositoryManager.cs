@@ -11,5 +11,9 @@ namespace ImageBoardReact.Models
     {
         int MaxNumberOfThreads { get; }
         Task RemoveOldestThreads();
+        //Task RemoveThreadAndItsContents(int threadId);
+        //Task<bool> RemovePostAndItsContents(int postId);
+        //Task RemovePostAsync(Post post);
+        Task<bool> RemoveByIdAsync(int postId);
     }
 }
