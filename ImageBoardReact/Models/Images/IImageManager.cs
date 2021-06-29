@@ -11,6 +11,6 @@ namespace ImageBoardReact.Models.Images
         Task<string> SaveImageAsync(IFormFile image);
         void RemoveImages(List<string> imagesNames);
         Task RemoveImagesAsync(List<string> imagesNames);
-        Task<List<string>> SaveImagesPackAsync(List<IFormFile> images);
+        Task<string[]> SaveImagesPackAsync(List<IFormFile> images);
     }
 }

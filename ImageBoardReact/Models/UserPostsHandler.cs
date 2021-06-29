@@ -19,7 +19,8 @@ namespace ImageBoardReact.Models
         public async Task<Post> BuildFromUserPostAsync(UserPost userPost, int threadId)
         {
             dateTimeProvider.UpdateTime();
-            List<string> fileWebPaths = new();
+            int imagesCount = userPost.Images?.Count ?? 0;
+            string [] fileWebPaths = new string[imagesCount];
             if (userPost.Images != null)
             {
                 fileWebPaths = await imageManager.SaveImagesPackAsync(userPost.Images); //await ManageImages(userPost);
@@ -32,14 +33,15 @@ namespace ImageBoardReact.Models
                 Text = userPost.Text,
                 DateTime = dateTimeProvider.GetTime,
                 ThreadId = threadId,
-                ImagesSource = fileWebPaths.ToArray()
+                ImagesSource = fileWebPaths
             };
 
         }
         public async Task<Post> BuildFromUserPostAsync(UserPost userPost)
         {
             dateTimeProvider.UpdateTime();
-            List<string> fileWebPaths = new();
+            int imagesCount = userPost.Images?.Count ?? 0;
+            string [] fileWebPaths = new string[imagesCount];
             if (userPost.Images != null)
             {
                 fileWebPaths = await imageManager.SaveImagesPackAsync(userPost.Images); //await ManageImages(userPost);
@@ -52,7 +54,7 @@ namespace ImageBoardReact.Models
                 Text = userPost.Text,
                 DateTime = dateTimeProvider.GetTime,
                 LastPostTime = dateTimeProvider.GetTime,
-                ImagesSource = fileWebPaths.ToArray()
+                ImagesSource = fileWebPaths
             };
 
         }

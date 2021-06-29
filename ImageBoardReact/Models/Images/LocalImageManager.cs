@@ -28,15 +28,15 @@ namespace ImageBoardReact.Models.Images
             return guid.ToString();
         }
 
-        public Task<string> SaveImageAsync(IFormFile image)
+        public async Task<string> SaveImageAsync(IFormFile image)
         {
             string name = GetNewName() + "." + image.FileName.Split(".").Last();
             string fullPath = Path.Combine(imagesSavePath, name);
             using (Stream fileStream = new FileStream(fullPath, FileMode.Create))
             {
-                image.CopyToAsync(fileStream);
+                await image.CopyToAsync(fileStream);
             }
-            return Task.FromResult(name);
+            return name;
         }
 
         public Task RemoveImagesAsync(List <string> imagesNames)
@@ -59,17 +59,15 @@ namespace ImageBoardReact.Models.Images
                 }
         }
 
-        public Task<List<string>> SaveImagesPackAsync(List<IFormFile> images)
+        public async Task<string []> SaveImagesPackAsync(List<IFormFile> images)
         {
-            return Task.Run(() =>
-            {
+            
                 List<Task<string>> tasks = new();
                 foreach (var image in images)
                 {
                     tasks.Add(SaveImageAsync(image));
                 }
-                return tasks.Select(task => task.Result).ToList();
-            });
+                return (await Task.WhenAll(tasks)) ?? Array.Empty<string>();// tasks. .When .Select(task => task.Result).ToArray();
             
         }
     }
