@@ -3,9 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageBoardReact", "ImageBoardReact\ImageBoardReact.csproj", "{A76F8A11-CE42-41D1-9AD1-7558FB15A7DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageBoardReact", "Services\ImageBoardReact\ImageBoardReact.csproj", "{A76F8A11-CE42-41D1-9AD1-7558FB15A7DD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageBoardReact.Tests", "ImageBoardReact.Tests\ImageBoardReact.Tests.csproj", "{2BAD74DB-9382-4C53-A1FE-176147795CE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageBoardReact.Tests", "Tests\ImageBoardReact.Tests\ImageBoardReact.Tests.csproj", "{2BAD74DB-9382-4C53-A1FE-176147795CE1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A76F8A11-CE42-41D1-9AD1-7558FB15A7DD} = {A76F8A11-CE42-41D1-9AD1-7558FB15A7DD}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "Services\WebApplication1\WebApplication1.csproj", "{1C37945C-C274-4A74-AAC0-E94796042A07}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{D8308882-71E0-4CE7-ACEC-8E90BB8D5FA8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3B051DBB-BFD6-4A4B-A48A-D9E750EA582F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +30,18 @@ Global
 		{2BAD74DB-9382-4C53-A1FE-176147795CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BAD74DB-9382-4C53-A1FE-176147795CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BAD74DB-9382-4C53-A1FE-176147795CE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C37945C-C274-4A74-AAC0-E94796042A07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C37945C-C274-4A74-AAC0-E94796042A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C37945C-C274-4A74-AAC0-E94796042A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C37945C-C274-4A74-AAC0-E94796042A07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A76F8A11-CE42-41D1-9AD1-7558FB15A7DD} = {D8308882-71E0-4CE7-ACEC-8E90BB8D5FA8}
+		{2BAD74DB-9382-4C53-A1FE-176147795CE1} = {3B051DBB-BFD6-4A4B-A48A-D9E750EA582F}
+		{1C37945C-C274-4A74-AAC0-E94796042A07} = {D8308882-71E0-4CE7-ACEC-8E90BB8D5FA8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {277A4137-1E3F-41B2-8A37-CD2F223B480C}

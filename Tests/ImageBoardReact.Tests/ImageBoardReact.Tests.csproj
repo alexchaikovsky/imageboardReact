@@ -21,11 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImageBoardReact\ImageBoardReact.csproj" />
+    <Folder Include="NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NewFolder\" />
+    <ProjectReference Include="..\..\Services\ImageBoardReact\ImageBoardReact.csproj" />
   </ItemGroup>
 
 </Project>
