@@ -24,4 +24,8 @@
     <ProjectReference Include="..\ImageBoardReact\ImageBoardReact.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

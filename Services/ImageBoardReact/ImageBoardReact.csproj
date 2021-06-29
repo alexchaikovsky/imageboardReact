@@ -29,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NewFolder\" />
     <Folder Include="StaticFiles\" />
     <Folder Include="StaticFiles\" />
   </ItemGroup>
