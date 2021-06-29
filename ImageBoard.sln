@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageBoardReact", "ImageBoa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageBoardReact.Tests", "ImageBoardReact.Tests\ImageBoardReact.Tests.csproj", "{2BAD74DB-9382-4C53-A1FE-176147795CE1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{BECAD90C-938C-474D-A384-5EEB5D3D2651}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1BC226AC-2156-426D-BA38-AB60CD23D002}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +24,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{A76F8A11-CE42-41D1-9AD1-7558FB15A7DD} = {BECAD90C-938C-474D-A384-5EEB5D3D2651}
-		{2BAD74DB-9382-4C53-A1FE-176147795CE1} = {1BC226AC-2156-426D-BA38-AB60CD23D002}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {277A4137-1E3F-41B2-8A37-CD2F223B480C}
