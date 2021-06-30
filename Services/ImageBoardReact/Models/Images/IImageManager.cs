@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ImageBoardReact.Models.Images
+namespace Board.Api.Models.Images
 {
     public interface IImageManager
     {

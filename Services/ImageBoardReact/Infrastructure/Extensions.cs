@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ImageBoardReact.Infrastructure
+namespace Board.Api.Infrastructure
 {
     public static class Extensions
     {

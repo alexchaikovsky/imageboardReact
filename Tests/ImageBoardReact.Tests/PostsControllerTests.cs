@@ -1,8 +1,8 @@
 ﻿using Castle.Core.Logging;
-using ImageBoardReact.Controllers;
-using ImageBoardReact.Infrastructure;
-using ImageBoardReact.Models;
-using ImageBoardReact.Models.Images;
+using Board.Api.Controllers;
+using Board.Api.Infrastructure;
+using Board.Api.Models;
+using Board.Api.Models.Images;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ImageBoardReact.Tests
+namespace Board.Api.Tests
 {
     public class PostsControllerTests
     {

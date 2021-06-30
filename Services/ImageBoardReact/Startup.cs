@@ -1,4 +1,4 @@
-using ImageBoardReact.Models;
+using Board.Api.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
-using ImageBoardReact.Infrastructure;
-using ImageBoardReact.Models.Images;
+using Board.Api.Infrastructure;
+using Board.Api.Models.Images;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ImageBoardReact.Authentiication;
+using Board.Api.Authentiication;
 using Microsoft.IdentityModel.Tokens;
 
-namespace ImageBoardReact
+namespace Board.Api
 {
     public class Startup
     {

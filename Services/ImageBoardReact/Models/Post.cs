@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ImageBoardReact.Models
+namespace Board.Api.Models
 {
     public class Post
     {

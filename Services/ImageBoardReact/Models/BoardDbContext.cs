@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace ImageBoardReact.Models
+namespace Board.Api.Models
 {
     public class BoardDbContext : DbContext
     {

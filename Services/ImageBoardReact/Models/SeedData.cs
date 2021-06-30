@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
-using ImageBoardReact.Authentiication.Security;
+using Board.Api.Authentiication.Security;
 
-namespace ImageBoardReact.Models
+namespace Board.Api.Models
 {
     public static class SeedData
     {

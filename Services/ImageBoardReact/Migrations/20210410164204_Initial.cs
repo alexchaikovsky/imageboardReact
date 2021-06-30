@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace ImageBoardReact.Migrations
+namespace Board.Api.Migrations
 {
     public partial class Initial : Migration
     {

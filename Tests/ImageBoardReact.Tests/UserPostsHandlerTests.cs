@@ -1,6 +1,6 @@
-﻿using ImageBoardReact.Infrastructure;
-using ImageBoardReact.Models;
-using ImageBoardReact.Models.Images;
+﻿using Board.Api.Infrastructure;
+using Board.Api.Models;
+using Board.Api.Models.Images;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using System;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ImageBoardReact.Tests
+namespace Board.Api.Tests
 {
     public class UserPostsHandlerTests
     {

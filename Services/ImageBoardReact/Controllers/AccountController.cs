@@ -1,6 +1,6 @@
-﻿using ImageBoardReact.Authentiication;
-using ImageBoardReact.Authentiication.Security;
-using ImageBoardReact.Models;
+﻿using Board.Api.Authentiication;
+using Board.Api.Authentiication.Security;
+using Board.Api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace ImageBoardReact.Controllers
+namespace Board.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

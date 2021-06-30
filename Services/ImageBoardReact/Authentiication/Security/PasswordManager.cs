@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 
-namespace ImageBoardReact.Authentiication.Security
+namespace Board.Api.Authentiication.Security
 {
     public class PasswordManager
     {

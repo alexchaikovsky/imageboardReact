@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ImageBoardReact.Models
+namespace Board.Api.Models
 {
     public interface IUsersRepository
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ImageBoardReact.Migrations
+namespace Board.Api.Migrations
 {
     public partial class AddLastPostTime : Migration
     {

@@ -3,18 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ImageBoardReact.Models;
+using Board.Api.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Cors;
-using ImageBoardReact.Infrastructure;
-using ImageBoardReact.Models.Images;
+using Board.Api.Infrastructure;
+using Board.Api.Models.Images;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace ImageBoardReact.Controllers
+namespace Board.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

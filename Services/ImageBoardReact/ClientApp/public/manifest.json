@@ -1,6 +1,6 @@
 {
-  "short_name": "ImageBoardReact",
-  "name": "ImageBoardReact",
+  "short_name": "Board.Api",
+  "name": "Board.Api",
   "icons": [
     {
       "src": "favicon.ico",

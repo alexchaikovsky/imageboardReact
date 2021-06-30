@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImageBoardReact.Authentiication
+namespace Board.Api.Authentiication
 {
     public class AuthOptions
     {

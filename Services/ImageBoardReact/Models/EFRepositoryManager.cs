@@ -1,12 +1,12 @@
-﻿using ImageBoardReact.Infrastructure;
-using ImageBoardReact.Models.Images;
+﻿using Board.Api.Infrastructure;
+using Board.Api.Models.Images;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ImageBoardReact.Models
+namespace Board.Api.Models
 {
     public class EFRepositoryManager : IRepositoryManager
     {

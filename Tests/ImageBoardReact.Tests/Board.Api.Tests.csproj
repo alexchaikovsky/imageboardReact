@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\ImageBoardReact\ImageBoardReact.csproj" />
+    <ProjectReference Include="..\..\Services\ImageBoardReact\Board.Api.csproj" />
   </ItemGroup>
 
 </Project>

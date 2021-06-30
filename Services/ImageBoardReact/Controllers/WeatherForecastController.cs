@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace ImageBoardReact.Controllers
+namespace Board.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]

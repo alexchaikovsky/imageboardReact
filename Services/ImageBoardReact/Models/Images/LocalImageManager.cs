@@ -1,4 +1,4 @@
-﻿using ImageBoardReact.Infrastructure;
+﻿using Board.Api.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ImageBoardReact.Models.Images
+namespace Board.Api.Models.Images
 {
     public class LocalImageManager : IImageManager
     {

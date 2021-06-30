@@ -1,6 +1,6 @@
 using System;
 
-namespace ImageBoardReact
+namespace Board.Api
 {
     public class WeatherForecast
     {
