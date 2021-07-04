@@ -71,12 +71,23 @@ namespace Board.Api
             services.AddScoped<IRepositoryManager, EFRepositoryManager>();
             services.AddScoped<IUsersRepository, EFUsersRepository>();
             services.AddTransient<IDateTimeProvider, UTCDateTimeProvider>();
-            
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
+
+
+            services.AddCors(options => 
             {
-                configuration.RootPath = "ClientApp/build";
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod());
+                    //.AllowCredentials());
+
             });
+            // In production, the React files will be served from this directory
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+            //    configuration.RootPath = "ClientApp/build";
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,11 +104,13 @@ namespace Board.Api
                 app.UseHsts();
             }
 
+
             app.UseHttpsRedirection();
             app.UseStaticFiles(new StaticFileOptions {
-                FileProvider=new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "StaticFiles")), RequestPath = "/image"
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "StaticFiles")), RequestPath = "/image"
             });
-            app.UseSpaStaticFiles();
+            //app.UseSpaStaticFiles();
+            app.UseCors("CorsPolicy");
 
             app.UseRouting();
 
@@ -110,18 +123,20 @@ namespace Board.Api
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+            
+            //app.UseSpa(spa =>
+            //{
+            //    spa.Options.SourcePath = "ClientApp";
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseReactDevelopmentServer(npmScript: "start");
+            //    }
+            //});
 
             SeedData.EnsurePopulated(app);
+
+            // TODO: move post (db) and image manager to different service
         }
     }
 }

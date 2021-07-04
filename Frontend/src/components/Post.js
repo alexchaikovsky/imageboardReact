@@ -1,4 +1,5 @@
 import React from "react";
+import { boardUrlDev } from "../config/configuration";
 
 function getName(name) {
   if (name == null) return "Anonymous";
@@ -13,10 +14,10 @@ function transformTime(datetime) {
 function insertImage(imageSource) {
   //if (imageSource == null) return;
   return (
-    <a href={"image/" + imageSource}>
+    <a href={boardUrlDev + "image/" + imageSource}>
       <img
         //src={require(imageSource)}
-        src={"image/" + imageSource}
+        src={boardUrlDev + "image/" + imageSource}
         class="image"
         align="left"
         alt=""

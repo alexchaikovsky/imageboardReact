@@ -4,6 +4,7 @@ import MainPost from "./MainPost";
 import "./futaba.css";
 import "./main.css";
 import InputForm from "./InputForm";
+import {boardUrlDev} from "../config/configuration.js";
 
 export class Board extends Component {
   static displayName = Board.name;
@@ -47,7 +48,8 @@ export class Board extends Component {
   }
 
   async populatePostsData() {
-    const response = await fetch("api/posts");
+    const response = await fetch(boardUrlDev + "api/posts").catch((error) => {console.error('Error:', error); });
+    console.log(response);
     const data = await response.json();
     this.setState({ posts: data, loading: false });
   }

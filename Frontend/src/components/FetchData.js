@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { boardUrlDev } from '../config/configuration';
 
 export class FetchData extends Component {
   static displayName = FetchData.name;
@@ -52,7 +53,7 @@ export class FetchData extends Component {
   }
 
   async populateWeatherData() {
-    const response = await fetch('weatherforecast');
+    const response = await fetch(boardUrlDev + 'weatherforecast');
     const data = await response.json();
     this.setState({ forecasts: data, loading: false });
   }

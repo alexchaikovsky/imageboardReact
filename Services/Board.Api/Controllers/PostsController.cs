@@ -119,7 +119,7 @@ namespace Board.Api.Controllers
         async public Task<IActionResult> PostInThread(int id, [FromForm] UserPost userPost)
         {
             _logger.LogWarning(userPost.Text);
-       
+            _logger.LogWarning(HttpContext.Connection.RemoteIpAddress.ToString());
             if (ContentChecker.CheckFieldsOk(userPost))
             {
                 Post newPost = await _userPostsHandler.BuildFromUserPostAsync(userPost, id);

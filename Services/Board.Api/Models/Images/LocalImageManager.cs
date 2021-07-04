@@ -31,7 +31,12 @@ namespace Board.Api.Models.Images
         public async Task<string> SaveImageAsync(IFormFile image)
         {
             string name = GetNewName() + "." + image.FileName.Split(".").Last();
+            if (!Directory.Exists(imagesSavePath))
+            {
+                throw new FileNotFoundException();
+            }
             string fullPath = Path.Combine(imagesSavePath, name);
+            _logger.LogInformation(fullPath);
             using (Stream fileStream = new FileStream(fullPath, FileMode.Create))
             {
                 await image.CopyToAsync(fileStream);

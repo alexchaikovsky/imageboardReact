@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  front:
+    container_name: client
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    command: npm start
+    ports:
+      - "3001:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  board-api:
+    container_name: board
+    build:
+      context: ./Services/Board.Api
+      dockerfile: Dockerfile
+    ports:
+      - "8090:5000"

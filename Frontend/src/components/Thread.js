@@ -5,6 +5,7 @@ import "./futaba.css";
 import "./main.css";
 import InputForm from "./InputForm";
 import { BallBeat } from "react-pure-loaders";
+import {boardUrlDev} from "../config/configuration.js";
 
 export class Thread extends Component {
   static displayName = Thread.name;
@@ -75,9 +76,9 @@ export class Thread extends Component {
     //this.setState({ loading: true });
   }
   async populatePostsData() {
-    console.log("fetch");
+    console.log("fetch + " + boardUrlDev);
     let id = this.props.match.params.id;
-    const response = await fetch("api/posts/" + id);
+    const response = await fetch(boardUrlDev + "api/posts/" + id);
     if (response.status == 200) {
       const data = await response.json();
       const first = data.shift();

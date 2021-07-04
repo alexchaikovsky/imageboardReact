@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  front:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3001:3000"
+  board-api:
+    container_name: board
+    build:
+      context: ./Services/Board.Api
+      dockerfile: Dockerfile
+    ports:
+      - "8090:5000"
