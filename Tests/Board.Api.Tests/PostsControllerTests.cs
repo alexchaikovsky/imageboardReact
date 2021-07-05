@@ -2,7 +2,6 @@
 using Board.Api.Controllers;
 using Board.Api.Infrastructure;
 using Board.Api.Models;
-using Board.Api.Models.Images;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Board.Api.Data;
+using Board.Api.Managers;
+using Board.Api.Managers.Images;
 
 namespace Board.Api.Tests
 {
@@ -42,10 +44,10 @@ namespace Board.Api.Tests
             PostsController postsController = new PostsController(
                 repositoryMock.Object,
                 loggerMock.Object,
-                environmentMock.Object,
+                
                 repositoryMonitorMock.Object,
                 repositoryManagerMock.Object,
-                imageManagerMock.Object,
+                
                 userPostsHandlerMock.Object);
             var dt = DateTime.Parse("10:00");
             repositoryMock.Setup(m => m.GetThreadsInOrderAsync())

@@ -1,6 +1,7 @@
 ﻿using Board.Api.Infrastructure;
+using Board.Api.Managers;
+using Board.Api.Managers.Images;
 using Board.Api.Models;
-using Board.Api.Models.Images;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using System;

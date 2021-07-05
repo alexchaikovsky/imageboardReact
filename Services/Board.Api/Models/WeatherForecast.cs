@@ -1,6 +1,6 @@
 using System;
 
-namespace Board.Api
+namespace Board.Api.Models
 {
     public class WeatherForecast
     {

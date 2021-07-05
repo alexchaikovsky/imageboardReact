@@ -1,11 +1,11 @@
 ﻿using Board.Api.Infrastructure;
-using Board.Api.Models.Images;
+using Board.Api.Managers.Images;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Board.Api.Models
+namespace Board.Api.Managers
 {
     public interface IRepositoryManager
     {

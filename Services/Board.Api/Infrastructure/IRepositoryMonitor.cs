@@ -1,4 +1,5 @@
-﻿using Board.Api.Models;
+﻿using Board.Api.Data;
+using Board.Api.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

@@ -17,10 +17,12 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Board.Api.Infrastructure;
-using Board.Api.Models.Images;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Board.Api.Authentiication;
 using Microsoft.IdentityModel.Tokens;
+using Board.Api.Data;
+using Board.Api.Managers;
+using Board.Api.Managers.Images;
 
 namespace Board.Api
 {

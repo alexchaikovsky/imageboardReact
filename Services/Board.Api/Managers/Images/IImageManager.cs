@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Board.Api.Models.Images
+namespace Board.Api.Managers.Images
 {
     public interface IImageManager
     {

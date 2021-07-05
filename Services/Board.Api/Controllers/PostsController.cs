@@ -8,9 +8,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Cors;
 using Board.Api.Infrastructure;
-using Board.Api.Models.Images;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
+using Board.Api.Data;
+using Board.Api.Managers;
+using Board.Api.Managers.Images;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,28 +24,22 @@ namespace Board.Api.Controllers
     {
         private readonly IPostsRepository repository;
         private readonly ILogger _logger;
-        private readonly IHostEnvironment _hostingEnvironment;
         private readonly IUserPostsHandler _userPostsHandler;
-        private readonly IImageManager imageManager;
         private readonly IRepositoryMonitor _repositoryMonitor;
         private readonly IRepositoryManager _repositoryManager;
         //private DbContext context;
         public PostsController(
             IPostsRepository repo, 
             ILogger<PostsController> logger, 
-            IHostEnvironment environment,
             IRepositoryMonitor repositoryMonitor,
             IRepositoryManager repositoryManager,
-            IImageManager imageManager,
             IUserPostsHandler userPostsHandler)
         {
             repository = repo;
             _logger = logger;
-            _hostingEnvironment = environment;
             _userPostsHandler = userPostsHandler;
             _repositoryMonitor = repositoryMonitor;
             _repositoryManager = repositoryManager;
-            this.imageManager = imageManager;
             //imageManager = new LocalImageManager(_hostingEnvironment, _logger, "StaticFiles");
 
         }

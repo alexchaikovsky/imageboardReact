@@ -1,5 +1,6 @@
 ﻿using Board.Api.Authentiication;
 using Board.Api.Authentiication.Security;
+using Board.Api.Data;
 using Board.Api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

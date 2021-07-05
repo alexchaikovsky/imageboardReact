@@ -4,8 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System;
 using Board.Api.Authentiication.Security;
+using Board.Api.Models;
 
-namespace Board.Api.Models
+namespace Board.Api.Data
 {
     public static class SeedData
     {

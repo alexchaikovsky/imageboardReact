@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Board.Api.Models;
 
-namespace Board.Api.Models
+namespace Board.Api.Data
 {
     public class BoardDbContext : DbContext
     {

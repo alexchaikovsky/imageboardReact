@@ -1,12 +1,14 @@
 ﻿using Board.Api.Infrastructure;
-using Board.Api.Models.Images;
+using Board.Api.Managers.Images;
+using Board.Api.Data;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Board.Api.Models;
 
-namespace Board.Api.Models
+namespace Board.Api.Managers
 {
     public class EFRepositoryManager : IRepositoryManager
     {
